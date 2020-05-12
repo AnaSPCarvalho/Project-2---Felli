@@ -15,6 +15,9 @@ namespace Felli
             // Create a new board for the whole game
             Board board = new Board();
 
+            // Display the board
+            board.Display();
+
             // Wait for newkey
             // Console.WriteLine("Press enter to exit!");
             // Console.ReadLine();
