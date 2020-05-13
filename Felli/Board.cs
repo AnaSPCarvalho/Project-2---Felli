@@ -137,10 +137,10 @@ namespace Felli
                     }
 
                     // If we're not in the middle row or this is the middle of 
-                    // the middle row
+                    //the middle row
                     if (y != 2 || (y == 2 && x == 1))
                     {
-                        Console.Write("▫");
+                        Console.Write(PieceChar(board.GetPiece(x, y)));
                     }
 
                     // Else just pad some spaces
