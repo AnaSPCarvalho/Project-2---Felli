@@ -34,6 +34,50 @@ namespace Felli
             };
         }
 
+        // Returns the piece at `x, y`
+        public int GetPiece(int x, int y)
+        {
+            // If we're on the first 2 rows, just return it normally
+            if (y < 2)
+            {
+                return board[y][x];
+            }
+
+            // If we're on the last 2 rows, invert x
+            else if (y > 2)
+            {
+                return board[y][2 - x];
+            }
+
+            // Else we're on the middle row, so return the 0th column
+            else
+            {
+                return board[y][0];
+            }
+        }
+
+        // Sets the piece at `x, y`
+        public void SetPiece(int x, int y, int piece)
+        {
+            // If we're on the first 2 rows, just set it normally
+            if (y < 2)
+            {
+                board[y][x] = piece;
+            }
+
+            // If we're on the last 2 rows, invert x
+            else if (y > 2)
+            {
+                board[y][2 - x] = piece;
+            }
+
+            // Else we're on the middle row, so set the 0th column
+            else
+            {
+                board[y][0] = piece;
+            }
+        }
+
         // Returns the absolute distance between two points across the X axis
         public int GetXDistanceAbs(int x0, int y0, int x1, int y1)
         {
