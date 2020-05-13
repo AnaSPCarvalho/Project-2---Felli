@@ -22,6 +22,64 @@ namespace Felli
             board = new UnravelledBoard();
         }
 
+        public bool ExistsPieces(int piece)
+        {
+            // For each row
+            for (int y = 0; y < 5; y++)
+            {
+                // For each column
+                for (int x = 0; x < 3; x++)
+                {
+                    if (board.GetPiece(x, y) == piece)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            // Else we don't have any pieces of those
+            return false;
+        }
+
+        private static char PieceChar(int piece)
+        {
+            if (piece == Black)
+            {
+                return 'B';
+            }
+            else if (piece == White)
+            {
+                return 'W';
+            }
+            else // Piece is wall or empty, both are reprented with a space
+            {
+                return ' ';
+            }
+        }
+        private static string PieceName(int piece)
+        {
+            if (piece == Black)
+            {
+                return "Black";
+            }
+            else
+            {
+                return "White";
+            }
+        }
+
+        private static int PieceOppositeTeam(int piece)
+        {
+            if (piece == Black)
+            {
+                return White;
+            }
+            else
+            {
+                return Black;
+            }
+        }
+
         // Prints the board
         public void Display()
         {
@@ -104,6 +162,246 @@ namespace Felli
 
             // Write the bottom line of the board box
             Console.WriteLine(" └─────────┘");
+        }
+
+        public void DoPieceTurn(int piece)
+        {
+            Console.WriteLine("Chose a piece, {0}!\n", PieceName(piece));
+
+            // Loop while we try to get user input
+            while (true)
+            {
+                Console.WriteLine("Select an 'X,Y'");
+
+                // Read the line the user entered and split it by commas
+                String[] args = Console.ReadLine().Split(',');
+
+                // If we didn't receive 2 arguments, complain and restart
+                if (args.Length != 2)
+                {
+                    Console.WriteLine("You must enter 2 arguments!");
+                    continue;
+                }
+
+                // Then try to parse both x and y
+                int x, y;
+                if (!int.TryParse(args[0], out x))
+                {
+                    Console.WriteLine("x must be int!");
+                    continue;
+                }
+                if (!int.TryParse(args[1], out y))
+                {
+                    Console.WriteLine("y must be int!");
+                    continue;
+                }
+
+                // Decrement x and y by 1 to be 0-based
+                x--;
+                y--;
+
+                // If it's out of bounds, retry
+                if (y < 0 || y > 4 || x < 0 || x > 4)
+                {
+                    Console.WriteLine("Out of bounds!");
+                    continue;
+                }
+
+                // If the user selected a square without a unit, retry
+                if (((y == 0 || y == 4) && (x == 1 || x == 3)) ||
+                    ((y == 1 || y == 3) && (x == 0 || x == 4)) ||
+                    (y == 2 && x != 2))
+                {
+                    Console.WriteLine("Not a valid playing position.");
+                    continue;
+                }
+
+                // Then scale x from 0..4 to 0..2
+                // 0 & 1 -> 0
+                //     2 -> 1
+                // 3 & 4 -> 2
+                if (x <= 2)
+                { // 0, 1, 2
+                    x /= 2;
+                }
+                else
+                { // 3, 4
+                    x = (x + 1) / 2;
+                }
+
+                // If it's not a piece of our color, retry
+                if (board.GetPiece(x, y) != piece)
+                {
+                    Console.WriteLine("Not your piece!");
+                    continue;
+                }
+
+                // Else try to do the piece turn, if it returns `false` it's 
+                //because the user
+                // wants another piece
+                if (DoSingularPieceTurn(x, y))
+                {
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Select another piece!");
+                    continue;
+                }
+            }
+        }
+
+        private bool DoSingularPieceTurn(int x, int y)
+        {
+            Console.WriteLine("\nChose where to move to.");
+
+            // Loop while we try to get user input
+            while (true)
+            {
+                Console.WriteLine("\nSelect an 'X, Y'or 'q/Q' to select " +
+                    "other piece.");
+
+                // Read the line the user entered and split it by commas
+                String[] args = Console.ReadLine().Split(',');
+
+                // if we just received 1 argument and it was 'q' or 'Q', 
+                //return false
+                if (args.Length == 1 && (args[0] == "q" || args[0] == "Q"))
+                {
+                    return false;
+                }
+
+                // If we didn't receive 2 arguments, complain and restart
+                if (args.Length != 2)
+                {
+                    Console.WriteLine("You must enter 2 arguments!");
+                    continue;
+                }
+
+                // Then try to parse both xMove and yMove
+                int xMove, yMove;
+                if (!int.TryParse(args[0], out xMove))
+                {
+                    Console.WriteLine("xMove must be int!");
+                    continue;
+                }
+                if (!int.TryParse(args[1], out yMove))
+                {
+                    Console.WriteLine("yMove must be int!");
+                    continue;
+                }
+
+                // Decrement x and y by 1 to be 0-based
+                xMove--;
+                yMove--;
+
+                // If it's out of bounds, retry
+                if (yMove < 0 || yMove > 4 || xMove < 0 || xMove > 4)
+                {
+                    Console.WriteLine("Out of bounds!");
+                    continue;
+                }
+
+                // If the user selected a square without a unit, retry
+                if (((yMove == 0 || yMove == 4) && (xMove == 1 || xMove == 3))
+                    || ((yMove == 1 || yMove == 3) && (xMove == 0 || xMove ==
+                    4)) || (yMove == 2 && xMove != 2))
+                {
+                    Console.WriteLine("Not a valid playing position.");
+                    continue;
+                }
+
+                // Then scale xMove from 0..4 to 0..2
+                // 0 & 1 -> 0
+                //     2 -> 1
+                // 3 & 4 -> 2
+                if (xMove <= 2)
+                { // 0, 1, 2
+                    xMove /= 2;
+                }
+                else
+                { // 3, 4
+                    xMove = (xMove + 1) / 2;
+                }
+
+                // And try to move the piece
+                // `MovePiece` returns `true` if successful
+                if (MovePiece(x, y, xMove, yMove))
+                {
+                    // Return if we succeeded
+                    return true;
+                }
+                else
+                {
+                    // Else warn and try again
+                    Console.WriteLine("Can not move there!");
+                    continue;
+                }
+            }
+        }
+
+        private bool CanMovePiece(int x, int y, int xMove, int yMove)
+        {
+            // If the destination isn't empty, return false
+            if (board.GetPiece(xMove, yMove) != Empty)
+            {
+                return false;
+            }
+
+            // Get the distance we're moving across axis
+            int xDistAbs = board.GetXDistanceAbs(x, y, xMove, yMove);
+            int yDistAbs = board.GetYDistanceAbs(x, y, xMove, yMove);
+
+            // If we're moving 1 unit in either x or y only, we can do it
+            if ((xDistAbs == 1 && yDistAbs == 0) || (xDistAbs == 0 && yDistAbs
+                == 1))
+            {
+                return true;
+            }
+
+            // If we're moving 2 units in either x or y only, we can do it if 
+            //the piece in between
+            // if of the opposite team.
+            if ((xDistAbs == 2 && yDistAbs == 0) || (xDistAbs == 0 && yDistAbs
+                == 2))
+            {
+                // Note: No rounding errors because we know the distance is 
+                //either 0 or 2 for each axis.
+                return board.GetPiece((xMove + x) / 2, (yMove + y) / 2) ==
+                    PieceOppositeTeam(board.GetPiece(x, y));
+            }
+
+            // If we got here, we can't move
+            return false;
+        }
+
+        private bool MovePiece(int x, int y, int xMove, int yMove)
+        {
+            // If we're moving into the middle row, set the x to be equal
+            if (yMove == 2)
+            {
+                xMove = x;
+            }
+
+            // If it can move there, move it and check for enemies in between
+            if (CanMovePiece(x, y, xMove, yMove))
+            {
+                // If we moved 2 units, then remove the piece in the middle
+                int xDistAbs = board.GetXDistanceAbs(x, y, xMove, yMove);
+                int yDistAbs = board.GetYDistanceAbs(x, y, xMove, yMove);
+                if (xDistAbs == 2 || yDistAbs == 2)
+                {
+                    board.SetPiece((xMove + x) / 2, (yMove + y) / 2, Empty);
+                }
+
+                // And then move the piece
+                board.SetPiece(xMove, yMove, board.GetPiece(x, y));
+                board.SetPiece(x, y, Empty);
+                return true;
+            }
+
+            // Else return false
+            return false;
         }
     }
 }
