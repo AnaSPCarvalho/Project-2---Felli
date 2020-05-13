@@ -68,7 +68,7 @@ namespace Felli
             }
         }
 
-        private static int PieceOppositeTeam(int piece)
+        public static int PieceOppositeTeam(int piece)
         {
             if (piece == Black)
             {
