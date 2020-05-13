@@ -25,6 +25,25 @@ namespace Felli
         // Prints the board
         public void Display()
         {
+            //Write instructions.
+            Console.WriteLine("\nFelli\n\n* Instructions *\n\nPrepare game:" +
+                " Choose between the white(W) and black(B) pieces to play." +
+                "\n              Decide wich player starts the game. \n\n" +
+                "Start game: Starting player picks a piece to move, knowing" +
+                " only one piece can be moved at a turn.\n            To " +
+                "pick a piece, select the coordinates(x, y) of that piece." +
+                "\n            If the player decides to change the piece " +
+                "he wants to move, press 'q' or 'Q', to select other piece." +
+                "\n            After picking a piece, the player selects the" +
+                " coordinates (x, y) of the house where to move the piece." +
+                "\n\nPossible moves: The pice can be moved to an adjacent " +
+                "free house, following the lines of the board.\n           " +
+                "     Jump over an adjacent enemie piece, " +
+                "landing at the next free house, eliminating the oponents" +
+                " piece.\n                The player can only eliminate one " +
+                "piece at a time.\n\nFinish game: When a player has " +
+                "captured all of the enemie pieces..\n\n");
+
             // Write all xs
             Console.WriteLine("  1 2 3 4 5");
 
