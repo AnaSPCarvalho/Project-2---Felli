@@ -4,17 +4,29 @@ using System.Text;
 
 namespace Felli
 {
-	// Unravelled board class.
+	/// <summary>
+	/// Unravelled board class.
+	/// </summary>
+	/// <details>
+	/// This class converts between normal coordinates and the
+	/// ones used to access the pieces. The middle row is triplicated
+	/// and the bottom rows are flipped horizontally.
+	/// This is so every movement becomes either horizontal or vertical.
+	/// </details>
 	class UnravelledBoard
 	{
 		public const int Empty = 0;
 		public const int White = 1;
 		public const int Black = 2;
 
-		// The whole board in it's unraveled form.
+		/// <summary>
+		/// The whole board in it's unraveled form.
+		/// </summary>
 		private int[][] board;
 
-		// Constructor.
+		/// <summary>
+		/// Constructor.
+		/// </summary>
 		public UnravelledBoard()
 		{
 			// Create the board.
@@ -27,7 +39,12 @@ namespace Felli
 			};
 		}
 
-		// Gets the piece at normal coordinates x, y.
+		/// <summary>
+		/// Gets the piece at normal coordinates x, y.
+		/// </summary>
+		/// <param name="x">Should be between 0 and 2 inclusive</param>
+		/// <param name="y">Should be between 0 and 4 inclusive</param>
+		/// <returns>Black, White or Empty</returns>
 		public int GetPiece(int x, int y)
 		{
 			// If we're on the first 2 rows, just return it normally.
@@ -49,7 +66,11 @@ namespace Felli
 			}
 		}
 
-		// Sets the piece at normal coordinates x, y.
+		//// <summary>
+		/// Sets the piece at normal coordinates x, y.
+		/// </summary>
+		/// <param name="x">Should be between 0 and 2 inclusive</param>
+		/// <param name="y">Should be between 0 and 4 inclusive</param>
 		public void SetPiece(int x, int y, int piece)
 		{
 			// If we're on the first 2 rows, just set it normally.
@@ -71,7 +92,15 @@ namespace Felli
 			}
 		}
 
-		// Calculates the horizontal distance between the
+		/// <summary>
+		/// Calculates the horizontal distance between the
+		/// pieces 'x0, y0' and 'x1, y1'
+		/// </summary>
+		/// <param name="x0">Should be between 0 and 2 inclusive</param>
+		/// <param name="y0">Should be between 0 and 4 inclusive</param>
+		/// <param name="x1">Should be between 0 and 2 inclusive</param>
+		/// <param name="y1">Should be between 0 and 4 inclusive</param>
+		/// <returns>A positive number</returns>stance between the
 		// pieces 'x0, y0' and 'x1, y1'
 		public int GetXDistanceAbs(int x0, int y0, int x1, int y1)
 		{
@@ -97,8 +126,15 @@ namespace Felli
 			return Math.Abs(x1 - x0);
 		}
 
-		// Calculates the vertical distance between the
-		// pieces 'x0, y0' and 'x1, y1'
+		/// <summary>
+		/// Calculates the vertical distance between the
+		/// pieces 'x0, y0' and 'x1, y1'
+		/// </summary>
+		/// <param name="x0">Should be between 0 and 2 inclusive</param>
+		/// <param name="y0">Should be between 0 and 4 inclusive</param>
+		/// <param name="x1">Should be between 0 and 2 inclusive</param>
+		/// <param name="y1">Should be between 0 and 4 inclusive</param>
+		/// <returns>A positive number</returns>
 		public int GetYDistanceAbs(int x0, int y0, int x1, int y1)
 		{
 			// Simply return the difference between their Y coordinates.

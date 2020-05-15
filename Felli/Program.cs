@@ -2,10 +2,14 @@
 
 namespace Felli
 {
-	// Class that executes the program
+	/// <summary>
+	/// Class that executes the program.
+	/// </summary>
 	class Program
 	{
-		// Entry function
+		/// <summary>
+		/// Entry function.
+		/// </summary>
 		static void Main()
 		{
 			// Set console to accept 'utf-8' which will allow us to put
@@ -65,7 +69,10 @@ namespace Felli
 			Console.ReadLine();
 		}
 
-		// Asks player 1 for their color.
+		/// <summary>
+		/// Ask player 1 for their color.
+		/// </summary>
+		/// <returns></returns>
 		private static int AskPlayer1Color()
 		{
 			Console.WriteLine("Player1, select your color!");
@@ -93,7 +100,10 @@ namespace Felli
 			}
 		}
 
-		// Asks player 1 if he wants to go first.
+		/// <summary>
+		/// Asks player 1 if he wants to go first.
+		/// </summary>
+		/// <returns>If player 1 wants to go first.</returns>
 		private static bool AskPlayer1First()
 		{
 			Console.WriteLine("Player1, select if you go first!");

@@ -4,24 +4,40 @@ using System.Text;
 
 namespace Felli
 {
-	// Board class, performs all turns and gets user input.
+	/// <summary>
+	/// Board class, performs all turns and gets user input.
+	/// </summary>
+	/// <details>
+	/// This class receives input as 1 through 5 inclusive on the x and y axis.
+	/// It then transforms them into normal coordinates, 0 through 2 inclusive
+	/// on the x axis and 0 through 4 inclusive on the y axis. This is so we can
+	/// pass them to the the Unravelled board.
+	/// </details>
 	class Board
 	{
 		public const int Empty = UnravelledBoard.Empty;
 		public const int White = UnravelledBoard.White;
 		public const int Black = UnravelledBoard.Black;
 
-		// The unravelled board.
+		/// <summary>
+		/// The unravelled board.
+		/// </summary>
 		UnravelledBoard board;
 
-		// Board constructor.
+		/// <summary>
+		/// Board constructor.
+		/// </summary>
 		public Board()
 		{
 			// Create a new standard board.
 			board = new UnravelledBoard();
 		}
 
-		// Checks if this board has any pieces of type 'piece'.
+		/// <summary>
+		/// Checks if this board has any pieces of type 'piece'.
+		/// </summary>
+		/// <param name="piece">The piece to check, either Black or White</param>
+		/// <returns>Returns false if there isn't any piece of that type.</returns>
 		public bool ExistsPieces(int piece)
 		{
 			// For each row.
@@ -42,7 +58,11 @@ namespace Felli
 			return false;
 		}
 
-		// Converts a piece to it's character
+		/// <summary>
+		/// Converts a piece to it's character
+		/// </summary>
+		/// <param name="piece">The piece to get the character of</param>
+		/// <returns>Returns 'B', 'W' or ' ', depending on the piece</returns>
 		private static char PieceChar(int piece)
 		{
 			if (piece == Black)
@@ -59,7 +79,11 @@ namespace Felli
 			}
 		}
 
-		// Converts a piece to it's name.
+		/// <summary>
+		/// Converts a piece to it's name
+		/// </summary>
+		/// <param name="piece">The piece to get the name of. Must be 'White' or 'Black'</param>
+		/// <returns>Returns "Black" or "White"</returns>
 		private static string PieceName(int piece)
 		{
 			if (piece == Black)
@@ -72,7 +96,11 @@ namespace Felli
 			}
 		}
 
-		// Returns the piece of the opposite team
+		/// <summary>
+		/// Returns the piece of the opposite team
+		/// </summary>
+		/// <param name="piece">Must be 'Black' or 'White' </param>
+		/// <returns>If black, returns white, else returns black</returns>
 		public static int PieceOppositeTeam(int piece)
 		{
 			if (piece == Black)
@@ -85,7 +113,9 @@ namespace Felli
 			}
 		}
 
-		// Prints the board.
+		/// <summary>
+		/// Prints the board.
+		/// </summary>
 		public void Display()
 		{
 			//Write instructions.
@@ -169,7 +199,10 @@ namespace Felli
 			Console.WriteLine(" └─────────┘");
 		}
 
-		// Processes a player's turn with color 'piece'.
+		/// <summary>
+		/// Processes a player's turn with color 'piece'.
+		/// </summary>
+		/// <param name="piece">The piece to process, must be 'White' or 'Black'</param>
 		public void DoPieceTurn(int piece)
 		{
 			Console.WriteLine("Choose a piece, {0}!\n", PieceName(piece));
@@ -256,7 +289,13 @@ namespace Felli
 			}
 		}
 
-		// Processes a single piece's turn.
+		/// <summary>
+		/// Processes a single piece's turn.
+		/// </summary>
+		/// <param name="x">Should be between 0 and 2 inclusive</param>
+		/// <param name="y">Should be between 0 and 4 inclusive</param>
+		/// <returns>Returns 'true' if success, else returns 'false' if the
+		/// player wants to choose another piece.</returns>
 		private bool DoSingularPieceTurn(int x, int y)
 		{
 			Console.WriteLine("\nChoose where to move to.");
@@ -264,7 +303,7 @@ namespace Felli
 			// Loop while we try to get user input.
 			while (true)
 			{
-				Console.WriteLine("\nSelect an 'X, Y' or 'q/Q' to select " +
+				Console.WriteLine("\nSelect an 'X,Y' or 'q/Q' to select " +
 					"other piece.");
 
 				// Read the line the user entered and split it by commas.
@@ -346,7 +385,14 @@ namespace Felli
 			}
 		}
 
-		// Checks if a piece can move to a position.
+		/// <summary>
+		/// Checks if a piece can move to a position.
+		/// </summary>
+		/// <param name="x">The piece's x position</param>
+		/// <param name="y">The piece's y position</param>
+		/// <param name="xMove">The x position to move to</param>
+		/// <param name="yMove">The t position to move to</param>
+		/// <returns>If it can move or not</returns>
 		private bool CanMovePiece(int x, int y, int xMove, int yMove)
 		{
 			// If the destination isn't empty, return false.
@@ -382,7 +428,14 @@ namespace Felli
 			return false;
 		}
 
-		// Moves a piece to a position, handling removal of other pieces.
+		/// <summary>
+		/// Moves a piece to a position, handling removal of other pieces.
+		/// </summary>
+		/// <param name="x">The piece's x position</param>
+		/// <param name="y">The piece's y position</param>
+		/// <param name="xMove">The x position to move to</param>
+		/// <param name="yMove">The t position to move to</param>
+		/// <returns>If the piece was moved successfully</returns>
 		private bool MovePiece(int x, int y, int xMove, int yMove)
 		{
 			// If we're moving into the middle row, set the xs to be equal.
